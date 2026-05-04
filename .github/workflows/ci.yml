@@ -1,0 +1,17 @@
+# Nome da Pipeline
+name: CI 
+
+# Regras
+on: 
+  pull_request:  # Regra: quando for feito uma Pull Request
+    branches: # Em qual branches?
+      - develop
+
+jobs: # Trabalhos a serem executados
+  test: # Trabalho: test
+    runs-on: ubuntu-latest # Máquina: Linux Ubuntu
+    steps:  # Passos a serem executados
+      - name: Checkout do código
+        uses: action/checkout@v4
+
+      - name: Instala o N

@@ -1,17 +1,40 @@
-# Nome da Pipeline
-name: CI 
+name: CI # Nome da Pipeline
 
-# Regras
-on: 
-  pull_request:  # Regra: quando for feito uma Pull Request
+on: # Regras
+  pull_request: # Regra: quando for feito uma Pull Request
     branches: # Em qual branches?
       - develop
 
 jobs: # Trabalhos a serem executados
   test: # Trabalho: test
     runs-on: ubuntu-latest # Máquina: Linux Ubuntu
-    steps:  # Passos a serem executados
+    steps: # Passos a serem executados
       - name: Checkout do código
-        uses: action/checkout@v4
+        uses: actions/checkout@v4
 
-      - name: Instala o N
+      - name: Instalar o Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Rodar os testes
+        run: npm test
+
+    build:
+      runs-on: ubuntu-latest
+      needs: test
+      steps:
+        - name: Checkout do código
+           uses: actions/checkout@v4
+           with:
+              node-version: 22
+        
+        - name: Instalar dependências
+           run: npm install
+
+        - name: Rodar build
+           run: npm run build
+
